@@ -45,3 +45,6 @@ PRIOR_LATE_RATE = 0.08
 # Brazil bounding box used to discard impossible geolocation points
 BRAZIL_LAT = (-34.0, 6.0)
 BRAZIL_LNG = (-74.0, -34.0)
+
+# Decision moment fallback for the few orders that have no approval timestamp (see decisions.md D2)
+IMPUTED_APPROVAL_LAG_MINUTES = 21   # median approval lag measured in notebook 01

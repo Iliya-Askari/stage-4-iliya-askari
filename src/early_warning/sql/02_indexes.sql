@@ -1,0 +1,14 @@
+CREATE INDEX IF NOT EXISTS ix_orders_customer   ON __SRC__.orders (customer_id);
+CREATE INDEX IF NOT EXISTS ix_orders_approved   ON __SRC__.orders (order_approved_at);
+CREATE INDEX IF NOT EXISTS ix_items_seller      ON __SRC__.order_items (seller_id);
+CREATE INDEX IF NOT EXISTS ix_items_product     ON __SRC__.order_items (product_id);
+CREATE INDEX IF NOT EXISTS ix_reviews_order     ON __SRC__.order_reviews (order_id, review_answer_timestamp);
+CREATE INDEX IF NOT EXISTS ix_customers_unique  ON __SRC__.customers (customer_unique_id);
+ANALYZE __SRC__.orders;
+ANALYZE __SRC__.order_items;
+ANALYZE __SRC__.order_payments;
+ANALYZE __SRC__.order_reviews;
+ANALYZE __SRC__.customers;
+ANALYZE __SRC__.products;
+ANALYZE __SRC__.sellers;
+ANALYZE __SRC__.geo_zip;
