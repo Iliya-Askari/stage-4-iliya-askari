@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "early-warning-system"
+version = "1.0.0"
+description = "Early warning system: rank freshly approved Olist orders by risk of a negative review"
+requires-python = ">=3.11"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+early_warning = ["sql/*.sql", "ingestion/*.json"]
