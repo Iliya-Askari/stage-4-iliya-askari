@@ -1,0 +1,12 @@
+# data never goes to git
+data/raw/*
+data/curated/*
+!data/raw/.gitkeep
+!data/curated/.gitkeep
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.ipynb_checkpoints/
+.pytest_cache/
+models/*.joblib
