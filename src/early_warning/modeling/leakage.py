@@ -61,3 +61,19 @@ def leakage_cost(split: TimeSplit, leaky: pd.DataFrame, frac: float = config.CAP
     return out
 
 
+
+
+def random_vs_temporal(frame: pd.DataFrame, split: TimeSplit, frac: float = config.CAPACITY) -> pd.DataFrame:
+    """A failed path kept as evidence: a random split flatters the model compared with a temporal one."""
+    from sklearn.model_selection import train_test_split
+    from .dataset import labelled_population, xy
+
+    lab = labelled_population(frame)
+    tr, te = train_test_split(lab, test_size=0.35, random_state=config.SEED, stratify=lab["is_negative"])
+    rows = []
+    for label, a, b in (("random split (WRONG)", tr, te), ("temporal split (used)", split.train, split.test)):
+        model = make_hgb(max_leaf_nodes=24, max_iter=300, learning_rate=0.04)
+        model.fit(xy(a)[0], xy(a)[1])
+        rep = full_report(xy(b)[1].to_numpy(), score(model, xy(b)[0]), frac)
+        rows.append({"split": label, "capture_rate": rep["capture_rate"], "roc_auc": rep["roc_auc"]})
+    return pd.DataFrame(rows)

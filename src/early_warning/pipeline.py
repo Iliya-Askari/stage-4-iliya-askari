@@ -106,3 +106,18 @@ def run_all(raw_dir: Path = config.DATA_RAW, external_mode: str = "auto", engine
     results["stage_seconds"] = manifest.data["stage_seconds"]
     results["total_seconds"] = manifest.total_seconds()
     return results
+
+
+def ensure_loaded(engine: Engine | None = None, raw_dir: Path = config.DATA_RAW, external_mode: str = "auto") -> Engine:
+    """Make sure the database holds the typed tables and the feature layer (used by the exploration notebook)."""
+    from sqlalchemy import text
+    ensure_database()
+    engine = engine or make_engine()
+    with engine.connect() as conn:
+        loaded = conn.execute(text(
+            "SELECT to_regclass('olist.orders') IS NOT NULL AND to_regclass('feat.feature_snapshot') IS NOT NULL")).scalar()
+    if not loaded:
+        ingest_all(raw_dir, engine, Manifest(), external_mode)
+        F.build_feature_layer(engine)
+    F.build_leaky_layer(engine)
+    return engine
