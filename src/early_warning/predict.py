@@ -159,8 +159,8 @@ def predict(input_path: Path, engine: Engine, model: TrainedModel | None = None,
     """Entry point used by the CLI and the tests. Returns the ranked follow-up list."""
     if not 0 < capacity <= 1:
         raise PredictionInputError("capacity must be in (0, 1]")
+    fresh = collect_input(Path(input_path))      # schema problems must surface before anything else
     model = model or load_model()
-    fresh = collect_input(Path(input_path))
     infer_src, infer_feat = config.SCHEMA_INFER_SRC, config.SCHEMA_INFER_FEAT
     try:
         _load_scratch(engine, fresh, external_mode)
