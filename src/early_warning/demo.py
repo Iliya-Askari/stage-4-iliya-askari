@@ -31,3 +31,18 @@ def make_demo_slice(raw_dir: Path = config.DATA_RAW, out_dir: Path | None = None
     broken = orders.drop(columns=["order_status"]).head(50)
     broken.to_csv(out_dir.parent / "demo_orders_missing_status.csv", index=False)
     return out_dir
+
+
+def quarantine_demo(raw_dir: Path = config.DATA_RAW, n: int = 2000) -> pd.DataFrame:
+    """Corrupt a few rows of the real reviews file in memory and show what the contract does with them."""
+    from .ingestion.loader import read_raw, validate
+
+    contract = CONTRACTS["order_reviews"]
+    raw = read_raw(Path(raw_dir) / contract.filename, contract).head(n).copy()
+    raw.loc[0, "review_score"] = "7"                      # outside 1..5
+    raw.loc[1, "review_answer_timestamp"] = "31-31-2018"  # impossible date
+    raw.loc[2, "order_id"] = ""                           # missing key
+    res = validate(raw, contract)
+    out = res.quarantine[["order_id", "review_score", "review_answer_timestamp", "_reason"]].copy()
+    out["rows_in"], out["rows_clean"] = res.rows_in, len(res.clean)
+    return out
