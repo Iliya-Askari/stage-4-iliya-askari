@@ -163,7 +163,7 @@ SELECT
     -- external signal: public holidays inside the promised delivery window
     GREATEST(he.cum - hb.cum, 0)                                            AS n_holidays_in_promise_window
 FROM __DST__.v_core c
-JOIN __SRC__.customers cu            ON cu.customer_id = c.customer_id
+LEFT JOIN __SRC__.customers cu       ON cu.customer_id = c.customer_id
 LEFT JOIN __DST__.mv_order_items i   ON i.order_id = c.order_id
 LEFT JOIN __SRC__.products p         ON p.product_id = i.primary_product_id
 LEFT JOIN __SRC__.product_category_translation t ON t.product_category_name = p.product_category_name

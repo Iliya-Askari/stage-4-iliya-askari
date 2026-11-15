@@ -31,7 +31,7 @@ def database_url() -> str:
 # --- problem definition ---------------------------------------------------
 NEGATIVE_MAX_SCORE = 2            # review score 1 or 2 means "negative"
 SPLIT_BOUNDARY = "2018-04-01"     # train before, evaluate on/after (see decisions.md D3)
-LABEL_EMBARGO_DAYS = 45           # p99 of approval -> review answer lag (see notebook 01)
+LABEL_EMBARGO_DAYS = 46           # ceil of the p99 approval -> review answer lag (45.5 days, see notebook 01)
 CAPACITY = 0.10                   # support team can follow up on 10% of orders
 CAPACITY_GRID = (0.05, 0.10, 0.20)
 FEATURE_QUERY_BUDGET_MS = 500
