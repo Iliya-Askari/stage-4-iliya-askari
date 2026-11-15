@@ -68,13 +68,14 @@ def load_holidays(years: list[int], mode: str = "auto", cache_dir: Path | None =
         raise ValueError(f"mode must be one of {MODES}")
     cache_dir = Path(cache_dir or config.EXTERNAL_CACHE_DIR)
     frames, per_year = [], {}
+    live_down = False   # circuit breaker: after one failed year do not wait for the others
     fallback = pd.DataFrame(_fallback_records()).rename(columns={"date": "holiday_date"})
     fallback["holiday_date"] = pd.to_datetime(fallback["holiday_date"]).dt.date
 
     for year in sorted(set(years)):
         source, payload = None, None
         cache_file = cache_dir / f"holidays_BR_{year}.json"
-        if mode in ("auto", "live"):
+        if mode in ("auto", "live") and not live_down:
             try:
                 payload = fetch_year_live(year, session=session)
                 source = "live_api"
@@ -83,6 +84,7 @@ def load_holidays(years: list[int], mode: str = "auto", cache_dir: Path | None =
             except ExternalSourceError:
                 if mode == "live":
                     raise
+                live_down = True
         if payload is None and mode in ("auto", "cache") and cache_file.exists():
             payload, source = json.loads(cache_file.read_text("utf-8")), "disk_cache"
         if payload is not None:
