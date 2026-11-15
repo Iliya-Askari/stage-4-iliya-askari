@@ -1,0 +1,20 @@
+Hash Left Join  (cost=6953.41..15910.94 rows=99441 width=459) (actual rows=99441 loops=1)
+  Hash Cond: (st.order_id = ch.order_id)
+  Buffers: shared hit=6208
+  ->  Hash Left Join  (cost=3563.98..8531.44 rows=99441 width=371) (actual rows=99441 loops=1)
+        Hash Cond: (st.order_id = sh.order_id)
+        Buffers: shared hit=5056
+        ->  Seq Scan on mv_order_static st  (cost=0.00..4706.41 rows=99441 width=331) (actual rows=99441 loops=1)
+              Buffers: shared hit=3712
+        ->  Hash  (cost=2330.66..2330.66 rows=98666 width=72) (actual rows=98666 loops=1)
+              Buckets: 131072  Batches: 1  Memory Usage: 11142kB
+              Buffers: shared hit=1344
+              ->  Seq Scan on mv_seller_history sh  (cost=0.00..2330.66 rows=98666 width=72) (actual rows=98666 loops=1)
+                    Buffers: shared hit=1344
+  ->  Hash  (cost=2146.41..2146.41 rows=99441 width=56) (actual rows=99441 loops=1)
+        Buckets: 131072  Batches: 1  Memory Usage: 9667kB
+        Buffers: shared hit=1152
+        ->  Seq Scan on mv_customer_history ch  (cost=0.00..2146.41 rows=99441 width=56) (actual rows=99441 loops=1)
+              Buffers: shared hit=1152
+Planning Time: 0.323 ms
+Execution Time: 216.257 ms

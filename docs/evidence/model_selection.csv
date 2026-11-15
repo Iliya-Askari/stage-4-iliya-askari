@@ -1,0 +1,4 @@
+model,validation_capture_rate,validation_roc_auc
+gradient_boosting_deeper,0.24185798184730378,0.6466488372703864
+logistic_regression,0.2375867592098238,0.64489934881541
+gradient_boosting_small,0.2359850507207688,0.6499526604052177

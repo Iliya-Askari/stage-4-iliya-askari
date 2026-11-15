@@ -160,7 +160,7 @@ not depend on it.
     c.append(md("## 9. Paths that failed"))
     c.append(md("""
 ### 9.1 A random split looks better - and is wrong
-Randomly splitting orders lets the model learn from the future (seller reputation, seasonal shocks) and inflates the metric.
+Randomly splitting orders lets the model learn from the future (seller reputation, seasonal shocks) and flatters it: the table shows the random split ahead of the temporal one, mostly in AUC and by a smaller margin in capture rate. The gap is moderate, but it is not real performance, so the temporal split is used.
 """))
     c.append(code("display(L.random_vs_temporal(frame, split))"))
     c.append(md("""

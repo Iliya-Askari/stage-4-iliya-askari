@@ -1,0 +1,36 @@
+feature,hypothesis,temporal_control
+purchase_hour,Orders placed late at night wait longer for approval and handling.,"row-local, no history involved"
+purchase_dow,Weekend orders are processed more slowly.,"row-local, no history involved"
+approval_lag_hours,A slow payment approval signals a fragile order and an unhappy customer.,"row-local, no history involved"
+promised_days_from_purchase,A long promise irritates customers; a short one is easier to break.,"row-local, no history involved"
+promised_days_from_approval,The time left for the seller after approval drives lateness risk.,"row-local, no history involved"
+ship_limit_slack_days,A tight handover deadline makes lateness more likely.,"row-local, no history involved"
+n_items,Larger baskets have more ways to go wrong.,"row-local, no history involved"
+n_sellers,Multi-seller orders arrive in pieces.,"row-local, no history involved"
+n_products,Heterogeneous baskets are harder to fulfil.,"row-local, no history involved"
+total_price,Expensive orders raise customer expectations.,"row-local, no history involved"
+total_freight,High shipping cost makes customers harsher judges.,"row-local, no history involved"
+freight_ratio,Customers paying mostly for shipping punish slow delivery.,"row-local, no history involved"
+customer_state,Remote states have worse delivery performance.,"row-local, no history involved"
+c_prior_orders,Repeat customers know the platform and complain less.,Event stream window: only events with ts < decision_ts of this order are summed.
+c_neg_rate_known,Customers who complained before complain again.,Review counted only if review_answer_timestamp < decision_ts; shrunk to a fixed prior.
+seller_state,Seller region drives transit time.,"row-local, no history involved"
+s_prior_orders,Experienced sellers fulfil more reliably.,"Event stream window, strict inequality on decision_ts."
+s_known_reviews,The amount of evidence behind the seller's reputation.,Review counted only if review_answer_timestamp < decision_ts.
+s_neg_rate_known,Sellers with a bad recent reputation will disappoint again.,Review counted only if review_answer_timestamp < decision_ts; prior is a constant.
+s_known_deliveries,The amount of evidence behind the seller's punctuality.,Delivery counted only if order_delivered_customer_date < decision_ts.
+s_late_rate_known,Sellers that were late recently will be late again.,Delivery counted only if order_delivered_customer_date < decision_ts; prior is a constant.
+product_category,"Some categories (furniture, electronics) disappoint more often.","row-local, no history involved"
+product_weight_g,Heavy items are harder to ship on time.,"row-local, no history involved"
+product_volume_cm3,Bulky items break more often in transit.,"row-local, no history involved"
+product_photos_qty,Poor listings create wrong expectations.,"row-local, no history involved"
+product_desc_len,Thin descriptions create wrong expectations.,"row-local, no history involved"
+product_name_len,Listing quality proxy.,"row-local, no history involved"
+payment_type_primary,Boleto payers wait for the bank slip and are more fragile.,"row-local, no history involved"
+payment_installments_max,Long instalment plans signal price-sensitive customers.,"row-local, no history involved"
+n_payments,Split payments (vouchers) complicate orders.,"row-local, no history involved"
+has_voucher,Voucher users are promotion driven and less loyal.,"row-local, no history involved"
+total_payment_value,Order size in money terms.,"row-local, no history involved"
+distance_km,Long distances mean long transit and more lateness.,"row-local, no history involved"
+same_state,Cross-state shipping is slower.,"row-local, no history involved"
+n_holidays_in_promise_window,"Holidays close carriers and post offices, so promises spanning them are broken more often.","row-local, no history involved"

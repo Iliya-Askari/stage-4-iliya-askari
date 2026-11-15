@@ -1,0 +1,269 @@
+{
+  "anomalies": {
+    "orders_approved_before_purchase": 0,
+    "orders_delivered_before_carrier": 23,
+    "orders_never_approved": 160,
+    "reviews_answered_before_creation": 0
+  },
+  "external_sources": {
+    "public_holidays_br": {
+      "mode_requested": "auto",
+      "name": "Nager.Date public holidays (BR)",
+      "retrieved_at_utc": "2026-11-15T11:00:11+00:00",
+      "url_template": "https://date.nager.at/api/v3/PublicHolidays/{year}/BR",
+      "used_fallback": true,
+      "years": {
+        "2016": {
+          "content_sha256": "8c005b512e2a9951",
+          "records": 10,
+          "source": "bundled_fallback"
+        },
+        "2017": {
+          "content_sha256": "5f59af21d3528c56",
+          "records": 10,
+          "source": "bundled_fallback"
+        },
+        "2018": {
+          "content_sha256": "dc2395dc5d36d52f",
+          "records": 10,
+          "source": "bundled_fallback"
+        }
+      }
+    }
+  },
+  "finished_at_utc": "2026-11-15T11:01:01+00:00",
+  "notes": [
+    "External API unreachable for at least one year: bundled holiday snapshot used."
+  ],
+  "package_version": "1.0.0",
+  "platform": "Linux",
+  "python": "3.12.3",
+  "results": {
+    "baseline": {
+      "rule": "worst_seller_reputation",
+      "test_capture_rate": 0.16786570743405277
+    },
+    "external_ablation": {
+      "test_capture_with": 0.23661071143085532,
+      "test_capture_without": 0.23581135091926458,
+      "test_diff_ci95": [
+        -0.005391554240240459,
+        0.005042388068319453
+      ],
+      "validation_capture_with": 0.24185798184730378,
+      "validation_capture_without": 0.2413240790176188
+    },
+    "feature_query": {
+      "budget_ms": 500,
+      "client_fetch_ms_median": 1094.8,
+      "server_ms_all": [
+        326.3,
+        216.8,
+        211.0,
+        252.9,
+        313.5
+      ],
+      "server_ms_median": 252.9
+    },
+    "last_month": {
+      "capture_rate": 0.21022727272727273,
+      "month": "2018-08",
+      "orders": 6594
+    },
+    "leakage_cost": [
+      {
+        "capture_rate": 0.2366,
+        "capture_rate_gain_vs_honest": 0.0,
+        "extra_columns": 0,
+        "model": "honest model (audited columns only)",
+        "pr_auc": 0.2309,
+        "precision": 0.2722,
+        "roc_auc": 0.6376,
+        "roc_auc_gain_vs_honest": 0.0
+      },
+      {
+        "capture_rate": 0.4207,
+        "capture_rate_gain_vs_honest": 0.1841,
+        "extra_columns": 4,
+        "model": "honest + post_approval_operations (status, delivery delay, handover)",
+        "pr_auc": 0.4429,
+        "precision": 0.4841,
+        "roc_auc": 0.7546,
+        "roc_auc_gain_vs_honest": 0.1171
+      },
+      {
+        "capture_rate": 0.2976,
+        "capture_rate_gain_vs_honest": 0.061,
+        "extra_columns": 1,
+        "model": "honest + naive_all_time_seller_negative_rate",
+        "pr_auc": 0.311,
+        "precision": 0.3424,
+        "roc_auc": 0.7178,
+        "roc_auc_gain_vs_honest": 0.0803
+      },
+      {
+        "capture_rate": 0.4042,
+        "capture_rate_gain_vs_honest": 0.1676,
+        "extra_columns": 1,
+        "model": "honest + review_comment_length",
+        "pr_auc": 0.415,
+        "precision": 0.4651,
+        "roc_auc": 0.7921,
+        "roc_auc_gain_vs_honest": 0.1545
+      },
+      {
+        "capture_rate": 0.5422,
+        "capture_rate_gain_vs_honest": 0.3056,
+        "extra_columns": 6,
+        "model": "CHEAT model (all leaky columns)",
+        "pr_auc": 0.6067,
+        "precision": 0.6239,
+        "roc_auc": 0.8809,
+        "roc_auc_gain_vs_honest": 0.2433
+      }
+    ],
+    "model": "gradient_boosting_deeper",
+    "operating_point": {
+      "base_rate": 0.1150591697835551,
+      "capacity": 0.1,
+      "capture_ci95": [
+        0.22485180948182504,
+        0.2482097920859863
+      ],
+      "capture_rate": 0.23661071143085532,
+      "f1": 0.2531717747683535,
+      "flagged": 3262,
+      "fn": 2865,
+      "fp": 2374,
+      "pr_auc": 0.23090371883136096,
+      "precision": 0.27222562844880444,
+      "recall": 0.23661071143085532,
+      "roc_auc": 0.6375503788896824,
+      "tn": 26491,
+      "tp": 888
+    },
+    "split": {
+      "boundary": "2018-04-01",
+      "embargo_days": 46,
+      "embargoed_rows": 11050,
+      "excluded_never_approved": 160,
+      "excluded_no_review": 763,
+      "orders_total": 99441,
+      "purged_rows": 97,
+      "test_decision_range": [
+        "2018-04-01",
+        "2018-09-03"
+      ],
+      "test_negative_rate": 0.1151,
+      "test_rows": 32618,
+      "train_cutoff": "2018-02-14",
+      "train_decision_range": [
+        "2016-09-15",
+        "2018-02-13"
+      ],
+      "train_negative_rate": 0.1477,
+      "train_rows": 54753
+    }
+  },
+  "seed": 42,
+  "stage_seconds": {
+    "analysis_drift": 0.356,
+    "analysis_external_signal_ablation": 8.216,
+    "analysis_leakage_cost": 13.193,
+    "database_init": 0.192,
+    "features_build_views_and_snapshot": 10.904,
+    "features_query_benchmark": 7.331,
+    "ingest_external_api": 3.542,
+    "ingest_load_postgres": 15.462,
+    "ingest_validate": 9.475,
+    "model_baseline": 0.023,
+    "model_evaluate": 1.939,
+    "model_load_frame_and_split": 2.067,
+    "model_train_and_select": 6.454
+  },
+  "started_at_utc": "2026-11-15T10:59:42+00:00",
+  "tables": {
+    "customers": {
+      "reasons": {},
+      "rows_clean": 99441,
+      "rows_in": 99441,
+      "rows_loaded": 99441,
+      "rows_quarantined": 0,
+      "sha256": "983a422239e1712ded753b3bf9ecf47dc73f144d306029dcfa99e70a226883d2",
+      "source_file": "olist_customers_dataset.csv"
+    },
+    "geolocation": {
+      "reasons": {},
+      "rows_clean": 1000163,
+      "rows_in": 1000163,
+      "rows_loaded": 1000163,
+      "rows_quarantined": 0,
+      "sha256": "b514f6fc991b9566aeba02aa5d67e2c3630f034b60a0e05aa0d082a3b66d88d6",
+      "source_file": "olist_geolocation_dataset.csv"
+    },
+    "order_items": {
+      "reasons": {},
+      "rows_clean": 112650,
+      "rows_in": 112650,
+      "rows_loaded": 112650,
+      "rows_quarantined": 0,
+      "sha256": "0bc4d068c4fe38cbb01bd90e8746e3c613fe7b4baef75fab7b0e329701c3e279",
+      "source_file": "olist_order_items_dataset.csv"
+    },
+    "order_payments": {
+      "reasons": {},
+      "rows_clean": 103886,
+      "rows_in": 103886,
+      "rows_loaded": 103886,
+      "rows_quarantined": 0,
+      "sha256": "4f713964f2815dbbaa40b9488268c55aac3627bfce5aa96cf58d1f3616de3cc0",
+      "source_file": "olist_order_payments_dataset.csv"
+    },
+    "order_reviews": {
+      "reasons": {},
+      "rows_clean": 99224,
+      "rows_in": 99224,
+      "rows_loaded": 99224,
+      "rows_quarantined": 0,
+      "sha256": "55fdfc354cac37b69409c5f66f279c164a001f5fe53b36765a523b344dd99cd0",
+      "source_file": "olist_order_reviews_dataset.csv"
+    },
+    "orders": {
+      "reasons": {},
+      "rows_clean": 99441,
+      "rows_in": 99441,
+      "rows_loaded": 99441,
+      "rows_quarantined": 0,
+      "sha256": "9d7d44e85e450829547d9bf4bf2c6907bdf46b6f789835bf86b60fe1b7f09519",
+      "source_file": "olist_orders_dataset.csv"
+    },
+    "product_category_translation": {
+      "reasons": {},
+      "rows_clean": 71,
+      "rows_in": 71,
+      "rows_loaded": 71,
+      "rows_quarantined": 0,
+      "sha256": "9da093e114e517534d7a6903b253b0d24a582830b99ea9e8ef48a90b79d60967",
+      "source_file": "product_category_name_translation.csv"
+    },
+    "products": {
+      "reasons": {},
+      "rows_clean": 32951,
+      "rows_in": 32951,
+      "rows_loaded": 32951,
+      "rows_quarantined": 0,
+      "sha256": "1e8cde27e6c033dce163fbd588edec9b349a32b9c8431ed2f83834a612220dd5",
+      "source_file": "olist_products_dataset.csv"
+    },
+    "sellers": {
+      "reasons": {},
+      "rows_clean": 3095,
+      "rows_in": 3095,
+      "rows_loaded": 3095,
+      "rows_quarantined": 0,
+      "sha256": "1f643d2b950373b85735e7794b20986f528d7a000432e7c6f9bcbb44d0846a0e",
+      "source_file": "olist_sellers_dataset.csv"
+    }
+  },
+  "total_seconds": 79.154
+}

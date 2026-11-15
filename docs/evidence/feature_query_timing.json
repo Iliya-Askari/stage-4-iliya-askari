@@ -1,0 +1,12 @@
+{
+  "server_ms_median": 252.9,
+  "server_ms_all": [
+    326.3,
+    216.8,
+    211.0,
+    252.9,
+    313.5
+  ],
+  "client_fetch_ms_median": 1094.8,
+  "budget_ms": 500
+}

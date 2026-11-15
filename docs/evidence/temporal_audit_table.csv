@@ -1,0 +1,36 @@
+column,available_at,available_at_approval,source_of_certainty,derived_from,aggregate
+purchase_hour,purchase (customer places the order),yes,Timestamp is written when the order is placed; approval cannot precede it (E1).,orders.order_purchase_timestamp,no
+purchase_dow,purchase (customer places the order),yes,Same as purchase_hour (E1).,orders.order_purchase_timestamp,no
+approval_lag_hours,approval (decision moment),yes,Both ends exist at the decision moment by definition (E1). Imputed for never-approved orders.,orders.order_approved_at - order_purchase_timestamp,no
+promised_days_from_purchase,purchase (customer places the order),yes,The estimate is shown to the customer at checkout; it is never earlier than purchase (E2).,orders.order_estimated_delivery_date - order_purchase_timestamp,no
+promised_days_from_approval,approval (decision moment),yes,"Estimate exists since purchase, approval is the decision moment (E2).",orders.order_estimated_delivery_date - order_approved_at,no
+ship_limit_slack_days,approval (decision moment),yes,Seller deadline is derived from the purchase: it is never earlier than purchase (E3).,order_items.shipping_limit_date - order_approved_at,no
+n_items,purchase (customer places the order),yes,The basket is fixed when the order is placed (E4).,order_items (count),no
+n_sellers,purchase (customer places the order),yes,Basket composition is fixed at purchase (E4).,order_items.seller_id (distinct),no
+n_products,purchase (customer places the order),yes,Basket composition is fixed at purchase (E4).,order_items.product_id (distinct),no
+total_price,purchase (customer places the order),yes,Prices are shown at checkout (E4).,order_items.price (sum),no
+total_freight,purchase (customer places the order),yes,Freight is quoted at checkout (E4).,order_items.freight_value (sum),no
+freight_ratio,purchase (customer places the order),yes,Ratio of two checkout quantities (E4).,order_items.freight_value / (price + freight_value),no
+customer_state,purchase (customer places the order),yes,Delivery address is entered at checkout (E5).,customers.customer_state,no
+c_prior_orders,history strictly before approval,yes,Counts only earlier approvals (strictly before this decision timestamp).,orders of the same customer_unique_id,yes
+c_neg_rate_known,history strictly before approval,yes,"Uses a review only after its ANSWER timestamp, not its creation date.",reviews of the customer's earlier orders,yes
+seller_state,purchase (customer places the order),yes,Seller of the first item is known at purchase (E4).,sellers.seller_state,no
+s_prior_orders,history strictly before approval,yes,Counts only earlier approvals.,earlier orders of the primary seller,yes
+s_known_reviews,history strictly before approval,yes,Counts a review only after review_answer_timestamp.,answered reviews of the seller before this decision,yes
+s_neg_rate_known,history strictly before approval,yes,Shrunken share of negative reviews already ANSWERED before the decision.,review_score of the seller's earlier orders,yes
+s_known_deliveries,history strictly before approval,yes,Counts a delivery only after order_delivered_customer_date.,delivered orders of the seller before this decision,yes
+s_late_rate_known,history strictly before approval,yes,Share of orders already DELIVERED before the decision that arrived after the estimate.,delivery vs estimate of the seller's earlier orders,yes
+product_category,purchase (customer places the order),yes,"Catalogue attribute of the first item (E6: static snapshot, caveat in decisions).",products.product_category_name (+ translation),no
+product_weight_g,purchase (customer places the order),yes,Catalogue attribute (E6).,products.product_weight_g,no
+product_volume_cm3,purchase (customer places the order),yes,Catalogue attribute (E6).,products length x height x width,no
+product_photos_qty,purchase (customer places the order),yes,Catalogue attribute (E6).,products.product_photos_qty,no
+product_desc_len,purchase (customer places the order),yes,Catalogue attribute (E6).,products.product_description_lenght,no
+product_name_len,purchase (customer places the order),yes,Catalogue attribute (E6).,products.product_name_lenght,no
+payment_type_primary,approval (decision moment),yes,Payment is captured before approval; approval depends on it (E7).,order_payments.payment_type (largest payment),no
+payment_installments_max,approval (decision moment),yes,Chosen at checkout (E7).,order_payments.payment_installments,no
+n_payments,approval (decision moment),yes,Captured before approval (E7).,order_payments (count),no
+has_voucher,approval (decision moment),yes,Captured before approval (E7).,order_payments.payment_type = 'voucher',no
+total_payment_value,approval (decision moment),yes,Captured before approval (E7).,order_payments.payment_value (sum),no
+distance_km,purchase (customer places the order),yes,Both zip prefixes are known at purchase; the geolocation table is a static reference (E6).,geolocation centroids of seller and customer zip prefixes,no
+same_state,purchase (customer places the order),yes,Both states known at purchase (E5).,customers.customer_state = sellers.seller_state,no
+n_holidays_in_promise_window,approval (decision moment),yes,Calendar is public and fixed in advance; the window ends at the estimate (E2). EXTERNAL SIGNAL.,external API: public holidays between approval date and estimated delivery date,no

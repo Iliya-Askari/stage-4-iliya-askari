@@ -1,0 +1,7 @@
+column,available_at,why_excluded,why_tempting
+orders.order_status,after approval (final status of a finished order),The table stores the FINAL status. 'canceled' and 'unavailable' are decided after approval.,Negative-review rate is 76% for canceled and 85% for unavailable orders against 13% for delivered (E8).
+orders.order_delivered_customer_date,after delivery,"Exists only once the parcel arrives, weeks after the decision. Its NULLs also encode status.",Delivery delay is the strongest single driver of a bad review.
+orders.order_delivered_carrier_date,after the seller hands over the parcel,Seller handover happens after approval; its NULLs also encode status.,Handover delay predicts delivery delay.
+order_reviews.review_score / comment fields,after the customer answers the survey,This is the label itself (or text written together with it).,Perfect correlation with the target.
+order_reviews.review_creation_date,"survey send date, mostly after delivery (E9)",Only 8% of surveys are created before delivery; it is a post-approval timestamp that also proves a review exists.,Looks like an innocent order timestamp.
+naive all-time seller negative rate,needs reviews that do not exist yet,A GROUP BY over all reviews of a seller includes future reviews AND the order's own review.,The most natural way to build a reputation feature; the classic leak the brief warns about.

@@ -1,0 +1,127 @@
+{
+  "split": {
+    "boundary": "2018-04-01",
+    "embargo_days": 46,
+    "train_cutoff": "2018-02-14",
+    "orders_total": 99441,
+    "excluded_never_approved": 160,
+    "excluded_no_review": 763,
+    "train_rows": 54753,
+    "train_negative_rate": 0.1477,
+    "embargoed_rows": 11050,
+    "purged_rows": 97,
+    "test_rows": 32618,
+    "test_negative_rate": 0.1151,
+    "train_decision_range": [
+      "2016-09-15",
+      "2018-02-13"
+    ],
+    "test_decision_range": [
+      "2018-04-01",
+      "2018-09-03"
+    ]
+  },
+  "feature_query": {
+    "server_ms_median": 252.9,
+    "server_ms_all": [
+      326.3,
+      216.8,
+      211.0,
+      252.9,
+      313.5
+    ],
+    "client_fetch_ms_median": 1094.8,
+    "budget_ms": 500
+  },
+  "baseline": {
+    "rule": "worst_seller_reputation",
+    "test_capture_rate": 0.16786570743405277
+  },
+  "model": "gradient_boosting_deeper",
+  "operating_point": {
+    "tp": 888,
+    "fp": 2374,
+    "fn": 2865,
+    "tn": 26491,
+    "flagged": 3262,
+    "precision": 0.27222562844880444,
+    "recall": 0.23661071143085532,
+    "f1": 0.2531717747683535,
+    "capacity": 0.1,
+    "roc_auc": 0.6375503788896824,
+    "pr_auc": 0.23090371883136096,
+    "base_rate": 0.1150591697835551,
+    "capture_rate": 0.23661071143085532,
+    "capture_ci95": [
+      0.22485180948182504,
+      0.2482097920859863
+    ]
+  },
+  "last_month": {
+    "month": "2018-08",
+    "capture_rate": 0.21022727272727273,
+    "orders": 6594
+  },
+  "leakage_cost": [
+    {
+      "model": "honest model (audited columns only)",
+      "extra_columns": 0,
+      "capture_rate": 0.2366,
+      "roc_auc": 0.6376,
+      "pr_auc": 0.2309,
+      "precision": 0.2722,
+      "capture_rate_gain_vs_honest": 0.0,
+      "roc_auc_gain_vs_honest": 0.0
+    },
+    {
+      "model": "honest + post_approval_operations (status, delivery delay, handover)",
+      "extra_columns": 4,
+      "capture_rate": 0.4207,
+      "roc_auc": 0.7546,
+      "pr_auc": 0.4429,
+      "precision": 0.4841,
+      "capture_rate_gain_vs_honest": 0.1841,
+      "roc_auc_gain_vs_honest": 0.1171
+    },
+    {
+      "model": "honest + naive_all_time_seller_negative_rate",
+      "extra_columns": 1,
+      "capture_rate": 0.2976,
+      "roc_auc": 0.7178,
+      "pr_auc": 0.311,
+      "precision": 0.3424,
+      "capture_rate_gain_vs_honest": 0.061,
+      "roc_auc_gain_vs_honest": 0.0803
+    },
+    {
+      "model": "honest + review_comment_length",
+      "extra_columns": 1,
+      "capture_rate": 0.4042,
+      "roc_auc": 0.7921,
+      "pr_auc": 0.415,
+      "precision": 0.4651,
+      "capture_rate_gain_vs_honest": 0.1676,
+      "roc_auc_gain_vs_honest": 0.1545
+    },
+    {
+      "model": "CHEAT model (all leaky columns)",
+      "extra_columns": 6,
+      "capture_rate": 0.5422,
+      "roc_auc": 0.8809,
+      "pr_auc": 0.6067,
+      "precision": 0.6239,
+      "capture_rate_gain_vs_honest": 0.3056,
+      "roc_auc_gain_vs_honest": 0.2433
+    }
+  ],
+  "external_ablation": {
+    "validation_capture_with": 0.24185798184730378,
+    "validation_capture_without": 0.2413240790176188,
+    "test_capture_with": 0.23661071143085532,
+    "test_capture_without": 0.23581135091926458,
+    "test_diff_ci95": [
+      -0.005391554240240459,
+      0.005042388068319453
+    ]
+  }
+}
