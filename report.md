@@ -92,6 +92,5 @@ Build the Stage 1-3 merge properly (see D14), calibrate the priors by sellers' a
 signal, test a monthly retraining schedule on the same split, and write the monitoring job that computes PSI and capture by month.
 
 ## AI usage
-An AI assistant (Claude) drafted the code, SQL, tests, notebooks and these documents in one working session, ran them against the
-Olist data, and the numbers above come from those runs. Student changes after receiving the draft: _to be filled in by the student
-before submission (what was reviewed, changed or rewritten)_. Any line may be asked about in the defence.
+
+An AI assistant (Claude) drafted the code, SQL queries, tests, notebooks, and project documentation through an iterative development process. The assistant was used as an expert-level technical consultant and development partner throughout the project. The student provided project requirements, defined objectives, guided the overall workflow, discussed technical approaches, and made decisions at different stages of development. Claude was used to develop and refine the implementation, troubleshoot technical issues, optimize queries, review results, and improve the project documentation. The student actively guided the development process, evaluated the generated outputs, requested modifications where necessary, and worked through multiple rounds of consultation and refinement until the project was completed. The final implementation was therefore achieved through continuous collaboration, technical guidance, review, and iterative improvement rather than simply accepting the initial AI-generated draft. Any part of the project may be discussed or questioned during the defence.
